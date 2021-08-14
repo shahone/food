@@ -45,21 +45,41 @@ function forms (modalWindow) {
 
       //* fetch
 
-      postData('http://localhost:3000/requests', json)
-      .then(data => {
-        console.log(data);
-        messageWindow.textContent = message.success;
-        setTimeout(() => {
-          messageWindow.remove();
-          modalWindow.classList.remove('show');
-          modalContent.classList.remove('hide');
-          document.body.style.overflow = '';
-        }, 3000);
-      }).catch(() => {
-        messageWindow.textContent = message.error;
-      }).finally(() => {
-        form.reset();
-      });
+      try{
+        postData('http://localhost:3000/requests', json)
+        .then(data => {
+          console.log(data);
+          messageWindow.textContent = message.success;
+          setTimeout(() => {
+            messageWindow.remove();
+            modalWindow.classList.remove('show');
+            modalContent.classList.remove('hide');
+            document.body.style.overflow = '';
+          }, 3000);
+        }).catch(() => {
+          messageWindow.textContent = message.error;
+        }).finally(() => {
+          form.reset();
+        });
+
+      } catch (e){
+        postData('db.json', json)
+        .then(data => {
+          console.log(data);
+          messageWindow.textContent = message.success;
+          setTimeout(() => {
+            messageWindow.remove();
+            modalWindow.classList.remove('show');
+            modalContent.classList.remove('hide');
+            document.body.style.overflow = '';
+          }, 3000);
+        }).catch(() => {
+          messageWindow.textContent = message.error;
+        }).finally(() => {
+          form.reset();
+        });
+      }
+
 
     });
 

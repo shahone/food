@@ -30,6 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-//! webpack
+//! npx webpack
 //! json-server db.json
-//@ на сервере проверяешь-то?
+//! на сервере проверяешь-то?

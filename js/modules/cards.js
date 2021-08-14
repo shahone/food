@@ -55,12 +55,22 @@ function cards() {
   // });
 
   //* axios
-  axios.get('http://localhost:3000/menu')
-  .then(data => {
-    data.data.forEach(({img, altimg, title, descr, price}) => {
-      new MenuItem(img, altimg, title, descr, price).createCard();
+  try {
+    axios.get('http://localhost:3000/menu')
+    .then(data => {
+      data.data.forEach(({img, altimg, title, descr, price}) => {
+        new MenuItem(img, altimg, title, descr, price).createCard();
+      });
     });
-  });
+  } catch(e){
+    axios.get('db.json')
+    .then(data => {
+      data.data.forEach(({img, altimg, title, descr, price}) => {
+        new MenuItem(img, altimg, title, descr, price).createCard();
+      });
+    });
+  }
+
 }
 
 export default cards;
