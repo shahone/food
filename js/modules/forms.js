@@ -26,60 +26,56 @@ function forms (modalWindow) {
       messageWindow.classList.add('modal__content');
       messageWindow.innerHTML = '<img src=' + message.img + ' ' + 'alt="loading">';
       // messageWindow.textContent = message.loading;
-      document.querySelector('.modal__dialog').append(messageWindow);
+      if (form.getAttribute('data-nomodal') === '') {
+        const order = document.querySelector('.order');
+        order.style.position = 'relative';
+        messageWindow.style.cssText = `
+          width: fit-content;
+          height: fit-content;
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          margin: auto;
+        `;
+        order.append(messageWindow);
+      } else {
+        document.querySelector('.modal__dialog').append(messageWindow);
+      }
 
       const formData = new FormData(form);
-      console.log(formData);
 
       //@ достаем данные из formData
-      // const obj = {};
-      // formData.forEach((value, key) => {
-      //   obj[key] = value;
-      // });
+      const obj = {};
+      formData.forEach((value, key) => {
+        obj[key] = value;
+      });
       // console.log(JSON.stringify(obj));
 
       //@ или
       const json = JSON.stringify(Object.fromEntries(formData.entries()));
-      console.log(json);
-
+      // console.log(json);
 
       //* fetch
 
-      try{
-        postData('http://localhost:3000/requests', json)
-        .then(data => {
-          console.log(data);
-          messageWindow.textContent = message.success;
-          setTimeout(() => {
-            messageWindow.remove();
-            modalWindow.classList.remove('show');
-            modalContent.classList.remove('hide');
-            document.body.style.overflow = '';
-          }, 3000);
-        }).catch(() => {
-          messageWindow.textContent = message.error;
-        }).finally(() => {
-          form.reset();
-        });
+      postData('http://localhost:3000/requests', json)
+      .then(data => {
+        console.log(JSON.stringify(data));
+        messageWindow.textContent = message.success;
 
-      } catch (e){
-        postData('db.json', json)
-        .then(data => {
-          console.log(data);
-          messageWindow.textContent = message.success;
-          setTimeout(() => {
-            messageWindow.remove();
-            modalWindow.classList.remove('show');
-            modalContent.classList.remove('hide');
-            document.body.style.overflow = '';
-          }, 3000);
-        }).catch(() => {
-          messageWindow.textContent = message.error;
-        }).finally(() => {
-          form.reset();
-        });
-      }
-
+      }).catch(() => {
+        console.log('error');
+        messageWindow.textContent = message.error;
+      }).finally(() => {
+        form.reset();
+        setTimeout(() => {
+          messageWindow.remove();
+          modalWindow.classList.remove('show');
+          modalContent.classList.remove('hide');
+          document.body.style.overflow = '';
+        }, 3000);
+      });
 
     });
 

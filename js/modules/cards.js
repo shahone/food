@@ -46,6 +46,7 @@ function cards() {
 
   //* fetch
 
+  // json-server db.json
   // getData из services.js
   // getData('http://localhost:3000/menu')
   // .then(data => {
@@ -55,21 +56,20 @@ function cards() {
   // });
 
   //* axios
-  try {
-    axios.get('http://localhost:3000/menu')
-    .then(data => {
-      data.data.forEach(({img, altimg, title, descr, price}) => {
-        new MenuItem(img, altimg, title, descr, price).createCard();
-      });
+
+  // axios.get('http://localhost:3000/menu')
+  // .then(data => {
+  //   data.data.forEach(({img, altimg, title, descr, price}) => {
+  //     new MenuItem(img, altimg, title, descr, price).createCard();
+  //   });
+  // });
+
+  axios.get('db.json')
+  .then(data => {
+    data.data.menu.forEach(({img, altimg, title, descr, price}) => {
+      new MenuItem(img, altimg, title, descr, price).createCard();
     });
-  } catch(e){
-    axios.get('db.json')
-    .then(data => {
-      data.data.forEach(({img, altimg, title, descr, price}) => {
-        new MenuItem(img, altimg, title, descr, price).createCard();
-      });
-    });
-  }
+  });
 
 }
 
