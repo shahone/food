@@ -18,7 +18,6 @@ function forms (modalWindow) {
   function bindPostData(form) {
     form.addEventListener('submit', e => {
       e.preventDefault();
-
       const modalContent = document.querySelector('.modal__content');
       modalContent.classList.add('hide');
 
@@ -45,23 +44,25 @@ function forms (modalWindow) {
       }
 
       const formData = new FormData(form);
+      console.log(formData);
 
-      //@ достаем данные из formData
+      //# просто достаем данные из formData
       const obj = {};
       formData.forEach((value, key) => {
         obj[key] = value;
       });
-      // console.log(JSON.stringify(obj));
+      console.log(obj);
 
-      //@ или
+      //# конвертируем в json
       const json = JSON.stringify(Object.fromEntries(formData.entries()));
-      // console.log(json);
+      console.log(json);
 
       //* fetch
 
-      postData('http://localhost:3000/requests', json)
+      // postData('http://localhost:3000/requests', json) // на сервер только json
+      postData('server.php', json)
       .then(data => {
-        console.log(JSON.stringify(data));
+        console.log(data);
         messageWindow.textContent = message.success;
 
       }).catch(() => {
@@ -76,6 +77,33 @@ function forms (modalWindow) {
           document.body.style.overflow = '';
         }, 3000);
       });
+
+
+
+      //////////////////////////////////////////////////
+
+      // postData('server.php', formData) // получаем промис
+      //   // дожидаемся, выполняем
+      //   .then(res => {
+      //     console.log(res);
+      //     messageWindow.textContent = message.success;
+      //   })
+      //   // если что-то пощло не так
+      //   .catch(() => {
+      //     console.log('error');
+      //     messageWindow.textContent = message.error;
+      //   })
+      //   // выполняется в любом случае
+      //   .finally(() => {
+      //     form.reset();
+      //     setTimeout(() => {
+      //       messageWindow.remove();
+      //       modalWindow.classList.remove('show');
+      //       modalContent.classList.remove('hide');
+      //       document.body.style.overflow = '';
+      //     }, 3000);
+      //   });
+
 
     });
 

@@ -11,11 +11,12 @@ const getData = async (url) => {
 const postData = async (url, data) => {
   const req = await fetch(url, {
     method: 'POST',
-    headers: {'Content-type': 'application/json'},
+    headers: {'Content-type': 'application/json'}, // для json
     body: data,
   });
 
-  return await req.json();
+  // return await req.json();
+  return await req.text(); //text() — если серверный файл возвращает текстовые данные //server.php
 };
 
 export {getData, postData};
