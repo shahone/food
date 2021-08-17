@@ -44,18 +44,15 @@ function forms (modalWindow) {
       }
 
       const formData = new FormData(form);
-      console.log(formData);
 
-      //# просто достаем данные из formData
+      //# достаем данные из formData
       const obj = {};
       formData.forEach((value, key) => {
         obj[key] = value;
       });
-      console.log(obj);
 
       //# конвертируем в json
       const json = JSON.stringify(Object.fromEntries(formData.entries()));
-      console.log(json);
 
       //* fetch
 
